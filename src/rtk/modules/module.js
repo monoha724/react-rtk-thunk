@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from '../../axios/api'
+import axios from "axios";
 
 export const __getCards = createAsyncThunk(
     "getCards",
     async (payload, thunkAPI) => {
         try {
-            const result = await api.get('/cards');
+            const result = await axios.get('https://json-server-mauve.vercel.app/cards');
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue(error);
@@ -17,7 +17,7 @@ export const __newCard = createAsyncThunk(
     "newCard",
     async (payload, thunkAPI) => {
         try {
-            const result = await api.post('/cards', payload)
+            const result = await axios.post('https://json-server-mauve.vercel.app/cards', payload)
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue(error);
@@ -29,7 +29,7 @@ export const __deleteCard = createAsyncThunk(
     "deleteCard",
     async (payload, thunkAPI) => {
         try {
-            await api.delete(`/cards/${payload}`);
+            await axios.delete(`https://json-server-mauve.vercel.app/cards/${payload}`);
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue(error);
@@ -41,7 +41,7 @@ export const __editState = createAsyncThunk(
     "editState",
     async (payload, thunkAPI) => {
         try {
-            await api.get(`/cards/${payload}`, payload);
+            await axios.get(`https://json-server-mauve.vercel.app/cards/${payload}`, payload);
             return thunkAPI.fulfillWithValue(payload);
         } catch(error) {
             return thunkAPI.rejectWithValue(error);
@@ -53,7 +53,7 @@ export const __fixCard = createAsyncThunk(
     "fixCard",
     async ({id, fixTitle, fixContent, img, edit}, thunkAPI) => {
         try {
-            const result = await api.put(`/cards/${id}`, {title: fixTitle, content: fixContent, img: img, edit: edit});
+            const result = await axios.put(`https://json-server-mauve.vercel.app/cards/${id}`, {title: fixTitle, content: fixContent, img: img, edit: edit});
             return thunkAPI.fulfillWithValue(result.data);
         } catch(error) {
             return thunkAPI.rejectWithValue(error);
